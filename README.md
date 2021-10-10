@@ -21,3 +21,5 @@ Idea and art by @Ryudrigo
 
 First Python Telegram version by @tlack
 
+VQGAN+CLIP code used to create images: (NerdyRodent's VQGAN+CLIP)[https://github.com/nerdyrodent/VQGAN-CLIP]
+
