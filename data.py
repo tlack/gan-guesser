@@ -74,7 +74,10 @@ class Leaderboard:
     def summary(self):
         summary = []
         for name, info in self.by_name.items():
-            score = info['wins'] / info['guesses']
+            if info['guesses'] == 0:
+                score = 0
+            else:
+                score = info['wins'] / info['guesses']
             record = {'name': name, 'wins': info['wins'], 'guesses': info['guesses'], 'score': score}
             summary.append(record)
         summary.sort(key=lambda x: x['score'], reverse=True)
