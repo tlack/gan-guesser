@@ -50,13 +50,13 @@ class Leaderboard:
         t.start()
 
     def add_guess(self, sender):
-        info = self.by_name.get(sender, self.blank)
+        info = self.by_name.get(sender, self.blank.copy())
         info['guesses'] = info['guesses'] + 1
         self.by_name[sender] = info
         self.dirty = True
 
     def add_win(self, sender):
-        info = self.by_name.get(sender, self.blank)
+        info = self.by_name.get(sender, self.blank.copy())
         info['wins'] = info['wins'] + 1
         self.by_name[sender] = info
         self.dirty = True
