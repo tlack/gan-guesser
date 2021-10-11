@@ -72,7 +72,7 @@ def send_guess(message):
         words = re.split(r"\s+", message.text)
         if len(words) == 1:
             print('potential guess', words)
-            username = message.from_user.username or message.from_user.first_name+" "+message.from_user.last_name
+            username = message.from_user.username or (message.from_user.first_name or '')+' '+(message.from_user.last_name or '')
             game.guess(words[0], message, message.from_user.username)
         else:
             print('not for me', message)
