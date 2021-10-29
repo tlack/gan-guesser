@@ -39,7 +39,11 @@ class Game:
             data.leader.add_guess(sender_id)
 
     def get_new_term(self):
-        return random.choice(list(data.game_data.keys()))
+        while 1:
+            word = random.choice(list(data.game_data.keys()))
+            if word not in data.banned_words:
+                return word
+        return ""
 
     def start_clues(self):
         print(f'start_clues(): term = {self.term}')
