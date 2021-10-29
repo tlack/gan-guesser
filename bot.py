@@ -50,7 +50,8 @@ def make_leaderboard():
 def send_welcome(message):
     terms = data.num_terms()
     insults = data.num_insults()
-    terms = f'I have **{terms} terms** and **{insults} insults** in my databoose.\n\n'
+    words = ", ".join(data.banned_words)
+    terms = f'I have **{terms} terms** and **{insults} insults** in my databoose, along with these banned words: {words}.\n\n'
     greeting = text['greeting'] + terms + make_leaderboard()
     bot.reply_to(message, greeting)
 
