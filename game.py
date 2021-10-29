@@ -3,12 +3,16 @@ from threading import Timer
 
 import data
 import text
+import util
+
+TERM_DUPE_MEMORY = 50
 
 class Game:
     def __init__(self):
         self.clue_delay = 15
         self.state = 'waiting'
         self.term = ''
+        self.recent_terms = []
         self.bot_cb = None
         self.conversation = None
 
@@ -17,6 +21,9 @@ class Game:
             self.bot_cb = bot_cb
             self.conversation = conversation
             self.term = self.get_new_term()
+            self.recent_terms.append(self.term)
+            if len(self.recent_terms) > TERM_DUPE_MEMORY:
+                self.recent_terms = self.recent_terms[-TERM_DUPE_MEMORY:];
             self.state = 'playing'
             self.start_clues()
             return True
@@ -41,7 +48,7 @@ class Game:
     def get_new_term(self):
         while 1:
             word = random.choice(list(data.game_data.keys()))
-            if word not in data.banned_words:
+            if word not in data.banned_words and word not in self.recent_terms:
                 return word
         return ""
 
