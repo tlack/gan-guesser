@@ -37,7 +37,7 @@ class Game:
             return True
 
     def guess(self, term, message, sender_id):
-        if term.lower().strip() == self.term:
+        if util.strip_trailing_s(term.lower().strip()) == util.strip_trailing_s(self.term):
             self.state = 'waiting'
             self.send_you_won(message)
             data.leader.add_win(sender_id)
