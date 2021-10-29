@@ -56,12 +56,12 @@ class Game:
         print(f'start_clues(): term = {self.term}')
         self.clue = 0
         self.send_clue_image()
-        t = Timer(self.clue_delay, self.next_clue)
+        t = Timer(self.clue_delay, self.next_clue, args=self.term)
         t.start()
 
-    def next_clue(self):
+    def next_clue(self, term):
         print(f'next_clue(): term = {self.term}, clue = {self.clue}')
-        if self.state == 'waiting':
+        if not self.playing() or self.term != term:
             return
 
         self.clue = self.clue + 1
@@ -72,7 +72,7 @@ class Game:
         else:
             self.bot_cb(self.conversation, 'group', 'text', f'Clue {self.clue+1} of {num_clues}..')
             self.send_clue_image()
-            t = Timer(self.clue_delay, self.next_clue)
+            t = Timer(self.clue_delay, self.next_clue, args=self.term)
             t.start()
 
     def send_clue_image(self):
