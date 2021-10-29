@@ -7,23 +7,29 @@ from threading import Timer
 import text
 import util
 
+BANNED_WORDS_FILE = 'banned-words.json'
 LEADERBOARD_FILE = 'leaderboard-byname.json'
 SAVE_DELAY = 60 
 SOURCE_DIR = 'game_data/terms'
-game_data = {}
-leaderboard = {}
 
-for filename in glob.glob(path.join(SOURCE_DIR, "*png")):
-    filename = path.basename(filename)
-    p = filename.split("-")
-    term = p[0].lower().strip()
-    game_data[term] = game_data.get(term, []) + [filename]
-
+def populate_game_terms():
+    game_data = {}
+    for filename in glob.glob(path.join(SOURCE_DIR, "*png")):
+        filename = path.basename(filename)
+        p = filename.split("-")
+        term = p[0].lower().strip()
+        game_data[term] = game_data.get(term, []) + [filename]
+    for term in game_data:
+        game_data[term] = sorted(game_data[term]) 
+    return game_data
 
 def clue_image(term, num):
     fn = game_data[term][num]
     d = util.read_bytes(path.join(SOURCE_DIR, fn))
     return d
+
+def load_banned_words():
+    return json.loads(util.read_file(BANNED_WORDS_FILE))
 
 def num_clues(term):
     return len(game_data[term])
@@ -83,5 +89,8 @@ class Leaderboard:
         summary.sort(key=lambda x: x['score'], reverse=True)
         return summary
 
+leaderboard = {}
+game_data = populate_game_terms()
+banned_words = load_banned_words()
 leader = Leaderboard()
 
